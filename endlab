@@ -2,7 +2,7 @@
 #
 #This script is run at the end of a Y1 summer lab.
 #It pushes students' code to their GitHub repositories.
-#
+# 
 #(startlab should be run first, of course.)
 #
 #T. Golfinopoulos 26 June 2017
