@@ -48,6 +48,7 @@ echo "Please enter your MEET GitHub username (example: myname19-meet), and then 
 read username
 declare -l username #Force string to lowercase
 username=$username
+name_only=${username:0:-5} #Remove -meet from GitHub username to get MEET username.
 
 #Hardcoded all usernames into script - hack.
 all_user_names=(adan19-meet adriana19-meet alice19-meet amit19-meet arnon19-meet asaf19-meet aya19-meet basel19-meet carmi19-meet dan19-meet dana19-meet daria19-meet derin19-meet dominica19-meet einav19-meet elias19-meet elizabeth19-meet eman19-meet forat19-meet gasan19-meet gaya19-meet gilady19-meet giladsc19-meet giladse19-meet idane19-meet idanz19-meet inon19-meet itamar19-meet jack19-meet jawzal19-meet jennifer19-meet laith19-meet leen19-meet majd19-meet malek19-meet marah19-meet matvey19-meet mayag19-meet mayad19-meet mayak19-meet mohammad19-meet moheeeldin19-meet mor19-meet mousa19-meet naama19-meet noa19-meet noamgl19-meet noamb19-meet noamga19-meet noamm19-meet noor19-meet omar19-meet omer19-meet or19-meet orr19-meet rahaf19-meet raheeq19-meet rakan19-meet rani19-meet rawand19-meet roy19-meet salwa19-meet sarah19-meet segev19-meet shaylee19-meet shellyw19-meet shellyb19-meet shikma19-meet shir19-meet shira19-meet shiraz19-meet shmuel19-meet simon19-meet tamara19-meet tamerm19-meet tamerk19-meet taqwa19-meet vivian19-meet wadi19-meet waseem19-meet william19-meet yair19-meet yonatan19-meet yousef19-meet)
@@ -94,11 +95,11 @@ fi
 if [[ $lab_id =~ $re ]] ; then
     #Create lab name: meet2017y1lab###, if lab_id is a number
     lab_name="meet"$(date +%Y)"y1lab"$lab_id 
-    dir_name=$username"_lab"$lab_id
+    dir_name=$name_only"_lab"$lab_id
 else
     #If lab_id is final-proj of mini-proj, change name accordingly
     lab_name="meet"$(date +%Y)"y1"$lab_id 
-    dir_name=$username"_"$lab_id
+    dir_name=$name_only"_"$lab_id
 fi
 
 git_path="https://github.com/"$username"/"$lab_name".git"
@@ -108,7 +109,7 @@ mkdir $dir_name
 cd $dir_name
 
 #Configure git username and e-mail address
-email_address="${username:0:-5}@meet.mit.edu" #Remove -meet from GitHub username to get MEET username.
+email_address="$name_only@meet.mit.edu" 
 echo "$email_address"
 
 git config --global user.name "$username"
