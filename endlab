@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+#This script is run at the end of a Y1 summer lab.
+#It pushes students' code to their GitHub repositories.
+#
+#(startlab should be run first, of course.)
+#
+#T. Golfinopoulos 26 June 2017
+
+echo "???????????????????????????????????"
+echo "Did you save _all_ your work first?"
+echo "If not, do it and run endlab again."
+echo "???????????????????????????????????"
+
+echo "Note: you can run endlab as many times as you want."
+
+#Record which computer the student was working on
+hostname > computer_name.txt
+
+git add --all
+
+username=$(git config --global user.name)
+
+git commit -m "Stopping here"
+git pull
+
+#
+echo "----------------------------------------"
+echo "You'll be asked to enter your GitHub username and password"
+echo "Your username is"
+echo "$username"
+echo "Your password is:"
+echo "meetyear19"
+echo "----------------------------------------"
+echo "When you type your password, you won't see anything on the screen"
+echo "That's okay - it protects your secrets!"
+echo "If you make a mistake, try another time by running endlab again"
+echo "----------------------------------------"
+echo "????????????????????????????????????????????"
+echo "Did you save _all_ your work in idle3 first?"
+echo "If not, do it and run endlab again."
+echo "????????????????????????????????????????????"
+git push -u origin master
+
+echo "----------------------------------------"
+echo "Bye bye!"
+echo ""
+echo "                             ___-------___"
+echo "                         _-~~             ~~-_"
+echo "                      _-~                    /~-_"
+echo "   /^\__/^\         /~  \                   /    \\"
+echo " /|  O|| O|        /      \_______________/        \\"
+echo "| |___||__|      /       /                \          \\"
+echo "|          \    /      /                    \          \\"
+echo "|   (_______) /______/                        \_________ \\"
+echo "|         / /         \                      /            \\"
+echo " \         \^\\\\         \                  /               \\     /"
+echo "   \         ||           \______________/      _-_       //\\__//"
+echo "     \       ||------_-~~-_ ------------- \ --/~   ~\    || __/"
+echo "       ~-----||====/~     |==================|       |/~~~~~"
+echo "        (_(__/  ./     /                    \_\      \."
+echo "               (_(___/                         \_____)_)"
+echo ""
+echo "----------------------------------------"

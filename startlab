@@ -1,0 +1,139 @@
+#!/bin/sh
+#This script is syntactic sugar for Y1's to clone an (empty) GitHub repo that they will fill (with another script) at the end of their labs.
+#Their repos have to be forked (and accounts created) ahead of time.
+#
+#T. Golfinopoulos 25 June 2017
+
+#Print a turtle
+echo "----------------------------------------"
+echo ""
+echo "      ___"
+echo " ,,  // \\\\"
+echo "(_,\/ \_/ \\"
+echo "  \ \_/_\_/>"
+echo "  /_/  /_/"
+
+weekday=$(date +%A)
+month=$(date +%B)
+day_of_month=$(date +%e)
+this_year=$(date +%Y)
+this_year_last_2=$(date +%y)
+
+seconds_since_epoch=$(date +%s)
+
+echo ""
+
+seconds_since_start_of_meet=$(( $seconds_since_epoch - 1500796800 ))
+days_since_start_of_meet=$(( $seconds_since_start_of_meet / 86400 ))
+
+echo "(: Hello, there! :)"
+echo "Today is $weekday, $day_of_month $month $this_year."
+echo "It's been $seconds_since_start_of_meet seconds since you started your first summer at MEET"
+
+if [ "$days_since_start_of_meet" -gt 1 ] || [ "$days_since_start_of_meet" -lt -1 ]; then
+    echo "($days_since_start_of_meet days)."
+else
+    echo "($days_since_start_of_meet day)."
+fi
+
+if [ "$seconds_since_start_of_meet" -gt 50400 ]; then #After first day
+    echo "Welcome to another MEET lab!"
+else
+    echo "Welcome to your first MEET lab!"
+fi
+
+echo "----------------------------------------"
+
+echo "Please enter your MEET GitHub username (example: myname19-meet), and then press enter: "
+read username
+declare -l username #Force string to lowercase
+username=$username
+
+#Hardcoded all usernames into script - hack.
+all_user_names=(adan19-meet adriana19-meet alice19-meet amit19-meet arnon19-meet asaf19-meet aya19-meet basel19-meet carmi19-meet dan19-meet dana19-meet daria19-meet derin19-meet dominica19-meet einav19-meet elias19-meet elizabeth19-meet eman19-meet forat19-meet gasan19-meet gaya19-meet gilady19-meet giladsc19-meet giladse19-meet idane19-meet idanz19-meet inon19-meet itamar19-meet jack19-meet jawzal19-meet jennifer19-meet laith19-meet leen19-meet majd19-meet malek19-meet marah19-meet matvey19-meet mayag19-meet mayad19-meet mayak19-meet mohammad19-meet moheeeldin19-meet mor19-meet mousa19-meet naama19-meet noa19-meet noamgl19-meet noamb19-meet noamga19-meet noamm19-meet noor19-meet omar19-meet omer19-meet or19-meet orr19-meet rahaf19-meet raheeq19-meet rakan19-meet rani19-meet rawand19-meet roy19-meet salwa19-meet sarah19-meet segev19-meet shaylee19-meet shellyw19-meet shellyb19-meet shikma19-meet shir19-meet shira19-meet shiraz19-meet shmuel19-meet simon19-meet tamara19-meet tamerm19-meet tamerk19-meet taqwa19-meet vivian19-meet wadi19-meet waseem19-meet william19-meet yair19-meet yonatan19-meet yousef19-meet)
+
+#Check to make sure the user entered a username that actually belongs to a student.
+correct_username=false
+for this_name in ${all_user_names[*]}; do
+    if [ "$this_name" == "$username" ]; then
+        correct_username=true
+        break  
+    fi
+done
+
+if [ "$correct_username" != true ]; then
+    echo "$username is not your username.  Check your spelling (look closely), and run startlab again."
+    exit 1
+fi
+echo "----------------------------------------"
+#export username #Save username for use in endlab script
+echo "Please enter the module number you'd like to work on, and then press enter. "
+
+if [ "$days_since_start_of_meet" -ge 8 ]; then
+    echo "If you want work on the mini project, type"
+    echo "mini-proj"
+    echo "and then hit enter"
+fi
+
+if [ "$days_since_start_of_meet" -ge 14 ]; then
+    echo "If you want work on the final project, type"
+    echo "final-proj"
+    echo "and then hit enter"
+fi
+read lab_id
+
+declare -l lab_id #Force string to lowercase
+lab_id=$lab_id
+
+#Make sure lab_id is an integer.
+re='^[0-9]+$'
+if (! [[ $lab_id =~ $re ]]) && ( [ "$lab_id" != 'mini-proj' ] && [ "$lab_id" != 'final-proj' ] ) ; then
+   echo "Error: you did not enter a number.  Re-run this script." >&2; exit 1
+fi
+
+if [[ $lab_id =~ $re ]] ; then
+    #Create lab name: meet2017y1lab###, if lab_id is a number
+    lab_name="meet"$(date +%Y)"y1lab"$lab_id 
+    dir_name=$username"_lab"$lab_id
+else
+    #If lab_id is final-proj of mini-proj, change name accordingly
+    lab_name="meet"$(date +%Y)"y1"$lab_id 
+    dir_name=$username"_"$lab_id
+fi
+
+git_path="https://github.com/"$username"/"$lab_name".git"
+
+#Make a directory with the student's username to avoid collisions
+mkdir $dir_name
+cd $dir_name
+
+#Configure git username and e-mail address
+email_address="${username:0:-5}@meet.mit.edu" #Remove -meet from GitHub username to get MEET username.
+echo "$email_address"
+
+git config --global user.name "$username"
+git config --global user.email "$email_address"
+
+#Clone repo.
+git clone $git_path
+cd $lab_name
+#Make sure most up-to-date version is in folder (in student has already cloned proj. on this computer)
+git pull
+
+#Return to home
+cd ~
+
+echo "----------------------------------------"
+echo "Please enter this into the Linux shell:"
+echo "cd "$dir_name"/"$lab_name
+echo "Then, enter this:"
+echo "ls"
+echo "----------------------------------------"
+echo "After that, you're ready for module "$lab_id
+echo "You can open a file for editing using idle3."
+echo "For example, to make a new file called hello_world.py, you would enter"
+echo "idle3 hello_world.py &"
+echo "Make sure you use the correct name for your files."
+echo "NOW, GO FOR IT!"
+echo "----------------------------------------------------------------"
+#idle3 & #Open up idle3
