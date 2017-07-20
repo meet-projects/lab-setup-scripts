@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #This script is syntactic sugar for Y1's to clone an (empty) GitHub repo that they will fill (with another script) at the end of their labs.
 #Their repos have to be forked (and accounts created) ahead of time.
 #
