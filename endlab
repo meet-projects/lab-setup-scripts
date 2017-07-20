@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 #This script is run at the end of a Y1 summer lab.
 #It pushes students' code to their GitHub repositories.
