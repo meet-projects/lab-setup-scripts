@@ -4,6 +4,9 @@
 #
 #T. Golfinopoulos 25 June 2017
 
+#Move to home directory
+cd ~
+
 #Print a turtle
 echo "----------------------------------------"
 echo ""
