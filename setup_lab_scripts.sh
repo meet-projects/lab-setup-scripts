@@ -35,6 +35,11 @@ echo "" >> .bashrc
 echo "...done editing .bashrc file"
 
 echo ""
+echo "Changing language settings for date/time to English"
+echo "sudo update-locale LC_ALL=en_US.UTF-8" >> /etc/default/locale
+echo "...done"
+
+echo ""
 echo "Try to install python3, idle3, git, gimp, and pygame (if already installed, will tell you so and exit)..."
 sudo apt-get install python3
 sudo apt-get install idle3
