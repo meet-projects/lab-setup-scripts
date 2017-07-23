@@ -36,7 +36,7 @@ echo "...done editing .bashrc file"
 
 echo ""
 echo "Changing language settings for date/time to English"
-echo "sudo update-locale LC_ALL=en_US.UTF-8" >> /etc/default/locale
+sudo update-locale LC_ALL=en_US.UTF-8
 echo "...done"
 
 echo ""
