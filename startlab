@@ -124,8 +124,13 @@ cd $lab_name
 #Make sure most up-to-date version is in folder (in student has already cloned proj. on this computer)
 git pull
 
+echo "#!/bin/bash" > ~/.working_dir.sh
+echo "#Git working directory for $username" >> ~/.working_dir.sh
+echo "cd ~/$dir_name/$lab_name" >> ~/.working_dir.sh
+echo "echo 'Moved to ~/$dir_name/$lab_name'"
+
 #Return to home
-cd ~
+#cd ~ #23 July 2017 - leave students in directory they are supposed to be in. TG
 
 echo "----------------------------------------"
 echo "Please enter this into the Linux shell:"
