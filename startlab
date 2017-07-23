@@ -49,7 +49,7 @@ echo "----------------------------------------"
 
 echo "Please enter your MEET GitHub username (example: myname19-meet), and then press enter: "
 read username
-declare -l username #Force string to lowercase#
+declare -l username #Force string to lowercase
 username=$username
 name_only=${username:0:-5} #Remove -meet from GitHub username to get MEET username.
 
