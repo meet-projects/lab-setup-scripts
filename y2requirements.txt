@@ -1,7 +1,11 @@
 click
 Flask
+flask-login
 itsdangerous
 Jinja2
 MarkupSafe
 SQLAlchemy
 Werkzeug
+virtualenvwrapper
+
+

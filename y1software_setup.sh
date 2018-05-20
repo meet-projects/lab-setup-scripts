@@ -3,6 +3,7 @@
 #This script copies startlab, endlab, and alias_lab_scripts.sh to /usr/local/bin.  It then appends a statement to the .bashrc file to source (run) the alias_lab_scripts.sh so that the aliases will be created in each new session (i.e. every time someone opens a Linux shell).
 #
 #Ted Golfinopoulos, 21 July 2017
+#Last modified: 13 May 2018
 
 echo "--------------------------"
 echo "Copying startlab, endlab, and alias_lab_scripts.sh scripts to /usr/local/bin..."
@@ -48,6 +49,10 @@ sudo apt-get install git
 sudo apt-get install gimp
 sudo pip install pygame
 sudo pip3 install pygame
+sudo pip install numpy #New in 2018 per Y1 request
+sudo pip install matplotlib #New in 2018 per Y1 request
+sudo pip3 install numpy #New in 2018 per Y1 request
+sudo pip3 install matplotlib #New in 2018 per Y1 request
 echo "...done"
 
 echo "setup script finished"
