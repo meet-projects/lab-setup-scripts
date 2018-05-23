@@ -42,11 +42,11 @@ echo "...done"
 
 echo ""
 echo "Try to install python3, idle3, git, gimp, and pygame (if already installed, will tell you so and exit)..."
-sudo apt-get install python
-sudo apt-get install python3
-sudo apt-get install idle3
-sudo apt-get install git
-sudo apt-get install gimp
+sudo apt-get -y install python
+sudo apt-get -y install python3
+sudo apt-get -y install idle3
+sudo apt-get -y install git
+sudo apt-get -y install gimp
 sudo pip install pygame
 sudo pip3 install pygame
 sudo pip install numpy #New in 2018 per Y1 request
