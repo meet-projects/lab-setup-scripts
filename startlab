@@ -3,18 +3,15 @@
 #Their repos have to be forked (and accounts created) ahead of time.
 #
 #T. Golfinopoulos 25 June 2017
+#Last modified 23 May 2018
 
 #Move to home directory
 cd ~
 
-#Print a turtle
+
 echo "----------------------------------------"
-echo ""
-echo "      ___"
-echo " ,,  // \\\\"
-echo "(_,\/ \_/ \\"
-echo "  \ \_/_\_/>"
-echo "  /_/  /_/"
+echo "------------> START IT UP! <------------"
+echo "----------------------------------------"
 
 weekday=$(date +%A)
 month=$(date +%B)
@@ -26,7 +23,7 @@ seconds_since_epoch=$(date +%s)
 
 echo ""
 
-seconds_since_start_of_meet=$(( $seconds_since_epoch - 1500796800 ))
+seconds_since_start_of_meet=$(( $seconds_since_epoch - 1532851200 )) #1500796800=2017 date
 days_since_start_of_meet=$(( $seconds_since_start_of_meet / 86400 ))
 
 echo "(: Hello, there! :)"
@@ -46,15 +43,29 @@ else
 fi
 
 echo "----------------------------------------"
+echo "(if you want to exit, hold down CTRL and press c)"
+echo ""
+echo "Please enter your MEET GitHub username (example: myname19-meet), and then press enter:"
 
-echo "Please enter your MEET GitHub username (example: myname19-meet), and then press enter: "
 read username
 declare -l username #Force string to lowercase
 username=$username
 name_only=${username:0:-5} #Remove -meet from GitHub username to get MEET username.
 
 #Hardcoded all usernames into script - hack.
-all_user_names=(adan19-meet adriana19-meet alice19-meet amit19-meet arnon19-meet asaf19-meet aya19-meet basel19-meet carmi19-meet dan19-meet dana19-meet daria19-meet derin19-meet dominica19-meet einav19-meet elias19-meet elizabeth19-meet eman19-meet forat19-meet gasan19-meet gaya19-meet gilady19-meet giladsc19-meet giladse19-meet idane19-meet idanz19-meet inon19-meet itamar19-meet jack19-meet jawzal19-meet jennifer19-meet laith19-meet leen19-meet majd19-meet malek19-meet marah19-meet matvey19-meet mayag19-meet mayad19-meet mayak19-meet mohammad19-meet moheeeldin19-meet mor19-meet mousa19-meet naama19-meet noa19-meet noamgl19-meet noamb19-meet noamga19-meet noamm19-meet noor19-meet omar19-meet omer19-meet or19-meet orr19-meet rahaf19-meet raheeq19-meet rakan19-meet rani19-meet rawand19-meet roy19-meet salwa19-meet sarah19-meet segev19-meet shaylee19-meet shellyw19-meet shellyb19-meet shikma19-meet shir19-meet shira19-meet shiraz19-meet shmuel19-meet simon19-meet tamara19-meet tamerm19-meet tamerk19-meet taqwa19-meet vivian19-meet wadi19-meet waseem19-meet william19-meet yair19-meet yonatan19-meet yousef19-meet)
+#all_user_names=()
+
+#Pull list of usernames from Github
+wget https://github.com/meet-projects/lab-setup-scripts/blob/master/check_name.txt
+
+all_user_names=($(<check_name.txt))
+#Replace delimiters with spaces so that the variable will be a bash array
+#my_list=${${my_list//,/" "}//;/" "}
+all_user_names=${all_user_names//,/" "}
+all_user_names=${all_user_names//;/" "}
+
+#Remove file with usernames
+rm check_name.txt
 
 #Check to make sure the user entered a username that actually belongs to a student.
 correct_username=false
@@ -66,8 +77,9 @@ for this_name in ${all_user_names[*]}; do
 done
 
 if [ "$correct_username" != true ]; then
-    echo "$username is not your username.  Check your spelling (look closely), and run startlab again."
-    exit 1
+    echo "$username is not your username.  Check your spelling (look closely).  Startlab will start again automatically."
+    source startlab #Call script again recursively
+    exit 1 #Exit recursive stack
 fi
 echo "----------------------------------------"
 #export username #Save username for use in endlab script
@@ -91,8 +103,12 @@ lab_id=$lab_id
 
 #Make sure lab_id is an integer.
 re='^[0-9]+$'
-if (! [[ $lab_id =~ $re ]]) && ( [ "$lab_id" != 'mini-proj' ] && [ "$lab_id" != 'final-proj' ] ) ; then
-   echo "Error: you did not enter a number.  Re-run this script." >&2; exit 1
+while (! [[ $lab_id =~ $re ]]) && ( [ "$lab_id" != 'mini-proj' ] && [ "$lab_id" != 'final-proj' ] ) ; then
+   echo "Error: couldn't recognize this lab.">&2;
+   echo "Please enter an integer lab number (like 1, 2, 3, etc.), or mini-proj, or final-proj: "
+   read lab_id
+   declare -l lab_id #Force string to lowercase
+    lab_id=$lab_id
 fi
 
 if [[ $lab_id =~ $re ]] ; then
@@ -121,7 +137,7 @@ git config --global user.email "$email_address"
 #Clone repo.
 git clone $git_path
 cd $lab_name
-#Make sure most up-to-date version is in folder (in student has already cloned proj. on this computer)
+#Make sure most up-to-date version is in folder (in case student has already cloned proj. on this computer)
 git pull
 
 echo "#!/bin/bash" > ~/.working_dir.sh
@@ -133,16 +149,35 @@ echo "echo 'Moved to ~/$dir_name/$lab_name'"
 #cd ~ #23 July 2017 - leave students in directory they are supposed to be in. TG
 
 echo "----------------------------------------"
-echo "Please enter this into the Linux shell:"
-echo "cd "$dir_name"/"$lab_name
-echo "Then, enter this:"
-echo "ls"
+#echo "Please enter this into the Linux shell:"
+#echo "cd "$dir_name"/"$lab_name
+#echo "Then, enter this:"
+#echo "Type"
+#echo "ls"
 echo "----------------------------------------"
-echo "After that, you're ready for module "$lab_id
+#echo "After that, you're ready for module "$lab_id
+echo "You're ready for module "$lab_id
 echo "You can open a file for editing using idle3."
 echo "For example, to make a new file called hello_world.py, you would enter"
+echo ""
 echo "idle3 hello_world.py &"
-echo "Make sure you use the correct name for your files."
+echo ""
+echo "*Make sure you use the correct name for your files.*"
+echo "---------------"
+echo "Shell commands:"
+echo "---------------"
+echo "ls -> list all of the files in the folder"
+echo "cd my_directory -> change to a folder called 'my_directory'"
+echo "cd .. -> move the folder up one level"
+echo "---------------"
 echo "NOW, GO FOR IT!"
 echo "----------------------------------------------------------------"
 #idle3 & #Open up idle3
+
+#Print a turtle upon success
+echo ""
+echo "      ___"
+echo " ,,  // \\\\"
+echo "(_,\/ \_/ \\"
+echo "  \ \_/_\_/>"
+echo "  /_/  /_/"
