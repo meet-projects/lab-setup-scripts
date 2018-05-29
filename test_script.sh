@@ -1,10 +1,32 @@
 #!/bin/bash
+
+#my_list=(a b c)
+#Import file; store in shell variable
+
+my_list=($(<test.txt))
+#Replace delimiters with spaces so that the variable will be a bash array
+#my_list=${${my_list//,/" "}//;/" "}
+my_list=${my_list//,/" "}
+my_list=${my_list//;/" "}
+
+for val in ${my_list[*]}; do
+    echo $val
+done
+
+
+echo ""
+echo "      ___"
+echo " ,,  // \\\\"
+echo "(_,\/ \_/ \\"
+echo "  \ \_/_\_/>"
+echo "  /_/  /_/"
+
+#!/bin/bash
 #This script is syntactic sugar for Y1's to clone an (empty) GitHub repo that they will fill (with another script) at the end of their labs.
 #Their repos have to be forked (and accounts created) ahead of time.
 #
 #T. Golfinopoulos 25 June 2017
-#Modified 23 May 2018
-#Last modified 29 May 2018
+#Last modified 23 May 2018
 
 #Move to home directory
 cd ~
@@ -46,7 +68,7 @@ fi
 echo "----------------------------------------"
 echo "(if you want to exit, hold down CTRL and press c)"
 echo ""
-echo "Please enter your MEET GitHub username (example: myname20-meet), and then press enter:"
+echo "Please enter your MEET GitHub username (example: myname19-meet), and then press enter:"
 
 read username
 
@@ -54,15 +76,16 @@ declare -l username #Force string to lowercase
 username=$username
 
 #Pull list of usernames from Github
-wget --output-file=".uname_download_log.txt" https://raw.githubusercontent.com/meet-projects/lab-setup-scripts/master/check_name.txt
+wget https://github.com/meet-projects/lab-setup-scripts/blob/master/check_name.txt
 
-mv check_name.txt .check_name.txt #Hide file
-
-all_user_names=($(<.check_name.txt))
+all_user_names=($(<check_name.txt))
 #Replace delimiters with spaces so that the variable will be a bash array
 #my_list=${${my_list//,/" "}//;/" "}
 all_user_names=${all_user_names//,/" "}
 all_user_names=${all_user_names//;/" "}
+
+#Remove file with usernames
+rm check_name.txt
 
 #Check to make sure the user entered a username that actually belongs to a student.
 correct_username=false
@@ -73,27 +96,13 @@ for this_name in ${all_user_names[*]}; do
     fi
 done
 
-while [ "$correct_username" != true ]
-do
-    echo "Cannot recognize $username.  Check your spelling (look closely)."
-    echo "Now, try entering your username again (or enter CTRL-C to quit): "
-    read username
-    declare -l username #Force string to lowercase
-    username=$username
-    
-    #Check to make sure the user entered a username that actually belongs to a student.
-    correct_username=false
-    for this_name in ${all_user_names[*]}; do
-        if [ "$this_name" == "$username" ]; then
-            correct_username=true
-            break  
-        fi
-    done
-done
-
-#Remove file with usernames and download output file
-rm .check_name.txt
-rm .uname_download_log.txt
+if [ "$correct_username" != true ]; then
+    echo "$username is not your username.  Check your spelling (look closely).  Startlab will start again automatically."
+    #source startlab #Call script again recursively
+    read temp
+    echo $temp
+    return #exit 1 #Exit recursive stack
+fi
 
 #Remove -meet from GitHub username to get MEET username.
 #Do this after username is verified
@@ -122,14 +131,13 @@ lab_id=$lab_id
 
 #Make sure lab_id is an integer.
 re='^[0-9]+$'
-while (! [[ $lab_id =~ $re ]]) && ( [ "$lab_id" != 'mini-proj' ] && [ "$lab_id" != 'final-proj' ] )
-do
+while (! [[ $lab_id =~ $re ]]) && ( [ "$lab_id" != 'mini-proj' ] && [ "$lab_id" != 'final-proj' ] ) ; then
    echo "Error: couldn't recognize this lab.">&2;
-   echo "Please enter an integer lab number (like 1, 2, 3, etc.), or mini-proj, or final-proj (or press CTRL-C to quit): "
+   echo "Please enter an integer lab number (like 1, 2, 3, etc.), or mini-proj, or final-proj: "
    read lab_id
    declare -l lab_id #Force string to lowercase
     lab_id=$lab_id
-done
+fi
 
 if [[ $lab_id =~ $re ]] ; then
     #Create lab name: meet2017y1lab###, if lab_id is a number
@@ -201,3 +209,5 @@ echo " ,,  // \\\\"
 echo "(_,\/ \_/ \\"
 echo "  \ \_/_\_/>"
 echo "  /_/  /_/"
+
+

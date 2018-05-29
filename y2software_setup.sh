@@ -81,7 +81,7 @@ code --install-extension ms-python.python #Install python extension
 
 #Download bootstrap with npm
 cd ~ #Move to home directory
-npm install bootstrap@3
+sudo npm install bootstrap@3
 
 #Download and unzip postman
 cd ~

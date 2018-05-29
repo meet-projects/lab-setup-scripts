@@ -3,7 +3,7 @@
 #This script copies startlab, endlab, and alias_lab_scripts.sh to /usr/local/bin.  It then appends a statement to the .bashrc file to source (run) the alias_lab_scripts.sh so that the aliases will be created in each new session (i.e. every time someone opens a Linux shell).
 #
 #Ted Golfinopoulos, 21 July 2017
-#Last modified: 13 May 2018
+#Modified: 13 May 2018
 
 echo "--------------------------"
 echo "Copying startlab, endlab, and alias_lab_scripts.sh scripts to /usr/local/bin..."

@@ -6,6 +6,7 @@
 #(startlab should be run first, of course.)
 #
 #T. Golfinopoulos 26 June 2017
+#Last modified 29 May 2018
 
 source ~/.working_dir.sh
 
@@ -32,7 +33,7 @@ echo "You'll be asked to enter your GitHub username and password"
 echo "Your username is"
 echo "$username"
 echo "Your password is:"
-echo "meetyear19"
+echo "meetyear20"
 echo "----------------------------------------"
 echo "When you type your password, you won't see anything on the screen"
 echo "That's okay - it protects your secrets!"
