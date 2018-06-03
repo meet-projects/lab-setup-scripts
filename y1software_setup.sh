@@ -14,6 +14,7 @@ sudo apt-get -y install python3
 sudo apt-get -y install idle3
 sudo apt-get -y install git
 sudo apt-get -y install gimp
+sudo apt-get -y install libreoffice #This doesn't come standard, it seems, on the Ubuntu distribution we're using
 
 #Install pip and pip3 and dependencies
 sudo apt-get -y install python-pip

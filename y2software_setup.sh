@@ -2,6 +2,8 @@
 #
 #Last updated 13 May 2018 for Y2 summer, Ted Golfinopoulos
 
+echo "Note: the Y1 sotware setup should be run first, as there are several co-dependencies"
+
 echo "Update packages..."
 sudo apt-get update -y
 
