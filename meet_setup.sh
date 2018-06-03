@@ -24,4 +24,4 @@ echo "======================="
 echo "Software setup completed on $(date)" > ~/meet_software_date.txt
 cd $MY_PATH
 
-rm check_name.txt #Remove list of users for startlab - not needed, anyway, since will be pulled fresh in each instance the script is run
+sudo rm check_name.txt #Remove list of users for startlab - not needed, anyway, since will be pulled fresh in each instance the script is run

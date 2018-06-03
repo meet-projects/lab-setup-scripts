@@ -47,12 +47,22 @@ sudo apt-get -y install python3
 sudo apt-get -y install idle3
 sudo apt-get -y install git
 sudo apt-get -y install gimp
-sudo pip install pygame
-sudo pip3 install pygame
-sudo pip install numpy #New in 2018 per Y1 request
-sudo pip install matplotlib #New in 2018 per Y1 request
-sudo pip3 install numpy #New in 2018 per Y1 request
-sudo pip3 install matplotlib #New in 2018 per Y1 request
+
+#Install pip and pip3 and dependencies
+sudo apt-get install python-pip
+sudo apt-get install python3-pip
+sudo pip install -U setuptools
+sudo pip3 install -U setuptools
+
+#Install Y1 dependencies
+sudo pip install -r y1requirements.txt
+sudo pip3 install -r y1requirements.txt
+#sudo pip install pygame
+#sudo pip3 install pygame
+#sudo pip install numpy #New in 2018 per Y1 request
+#sudo pip install matplotlib #New in 2018 per Y1 request
+#sudo pip3 install numpy #New in 2018 per Y1 request
+#sudo pip3 install matplotlib #New in 2018 per Y1 request
 echo "...done"
 
 echo "setup script finished"

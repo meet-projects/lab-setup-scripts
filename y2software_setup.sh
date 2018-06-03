@@ -18,6 +18,12 @@ sudo apt-get update -y
 #Install git
 sudo apt-get -y install git
 
+#Install pip and pip3 and dependencies
+sudo apt-get install python-pip
+sudo apt-get install python3-pip
+sudo pip install -U setuptools
+sudo pip3 install -U setuptools
+
 #Install nodejs and npm
 sudo apt-get -y install nodejs
 sudo apt-get -y install npm
