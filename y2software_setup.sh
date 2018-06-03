@@ -60,7 +60,10 @@ sudo apt install scudcloud -y
 #pencil
 #wget “http://evoluspencil.googlecode.com/files/#evoluspencil_2.0.5_all.deb”
 #sudo dpkg -i evoluspencil_2.0.5_all.deb
-sudo apt install pencil
+#sudo apt-get -y install pencil
+wget http://pencil.evolus.vn/dl/V3.0.4/Pencil_3.0.4_amd64.deb
+sudo dpkg -i Pencil_3.0.4_amd64.deb
+sudo apt-get install -f
 
 #kdenlive
 
