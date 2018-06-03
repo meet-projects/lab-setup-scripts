@@ -53,14 +53,18 @@ echo ""
 cd ~
 
 echo "Appending to .bashrc file a call to source alias_lab_scripts.sh..."
+echo "Append commands to .bashrc of student and students users, as well."
+dir_list=(~/ /home/student/ /home/students/ /home/testuser/)
 
-echo "#Make sure aliases to startlab and endlab are created in every session" >> .bashrc
-echo "source /usr/local/bin/alias_lab_scripts.sh" >> .bashrc
-echo "" >> .bashrc
-echo "#Put current directory in path" >> .bashrc
-echo "export PATH=$PATH:." >> .bashrc
-echo "" >> .bashrc
-echo "...done editing .bashrc file"
+for dir in ${dir_list[*]}; do
+    echo "#Make sure aliases to startlab and endlab are created in every session" >> .bashrc
+    echo "source /usr/local/bin/alias_lab_scripts.sh" >> .bashrc
+    echo "" >> "$dir.bashrc"
+    echo "#Put current directory in path" >> .bashrc
+    echo "export PATH=$PATH:." >> .bashrc
+    echo "" >> .bashrc
+    echo "...done editing $dir.bashrc file"
+done
 
 echo ""
 echo "Changing language settings for date/time to English"
