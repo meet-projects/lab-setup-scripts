@@ -69,6 +69,9 @@ for this_user in ${user_list[*]}; do
     echo "#Put current directory in path" >> $this_file
     echo "export PATH=$PATH:." >> $this_file
     echo "" >> $this_file
+    echo "#Alias Python3 version of idle to idle3 - doesn't seem to have this reference by default"
+    echo "alias idle3=\"idle-python3.6\""
+    echo "" >> $this_file
     #Remove newly-added permissions allowing all users to write into .bashrc file
     sudo chmod a-w $this_file
     sudo chmod u+w $this_file #Allow user to edit own .bashrc
