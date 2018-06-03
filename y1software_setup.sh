@@ -3,7 +3,8 @@
 #This script copies startlab, endlab, and alias_lab_scripts.sh to /usr/local/bin.  It then appends a statement to the .bashrc file to source (run) the alias_lab_scripts.sh so that the aliases will be created in each new session (i.e. every time someone opens a Linux shell).
 #
 #Ted Golfinopoulos, 21 July 2017
-#Modified: 13 May 2018
+#Modified: 13 May 2018 TG
+#Modified 3 June 2018 TG
 
 echo ""
 echo "Try to install python3, idle3, git, gimp, and pygame (if already installed, will tell you so and exit)..."

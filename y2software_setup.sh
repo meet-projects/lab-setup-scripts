@@ -1,6 +1,7 @@
 #The original version of this software may have been from 2016-2017 YL2 MEETconf by Lorenzo Brown.
 #
-#Last updated 13 May 2018 for Y2 summer, Ted Golfinopoulos
+#updated 13 May 2018 for Y2 summer, Ted Golfinopoulos
+#Last updated 3 June 2018 TG
 
 echo "Note: the Y1 sotware setup should be run first, as there are several co-dependencies"
 
@@ -35,7 +36,6 @@ sudo apt-get -y install nodejs
 sudo apt-get -y install npm
 
 #install inkscape
-
 #sudo apt-get update
 sudo apt install inkscape -y
 
@@ -89,8 +89,18 @@ sudo apt-get -y install sublime-text
 sudo apt-get -y install brackets #Install brackets
 
 #Install Microsoft vscode text editor (run with "code" command)
+#Somehow, code is not in repository list - not sure what Ubuntu this is....
+#Nor does the .gpg key get added - Had to do that manually with 
+#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <key>
+#per instructions at https://chrisjean.com/fix-apt-get-update-the-following-signatures-couldnt-be-verified-because-the-public-key-is-not-available/
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
 sudo apt-get -y install code
 code --install-extension ms-python.python #Install python extension
+
+echo "===Y2==="
+echo "Download particular dependencies and copy to user directories"
 
 #Download bootstrap with npm
 cd ~ #Move to home directory
@@ -98,12 +108,20 @@ sudo npm install bootstrap@3
 
 #Download and unzip postman
 cd ~
-wget -O postman.tar.gz https://dl.pstmn.io/download/version/6.1.2/linux64
+wget -O postman.tar.gz https://dl.pstmn.io/download/latest/linux64
 tar -xvf postman.tar.gz
 
 #Download jQuery
 cd ~
 wget https://code.jquery.com/jquery-3.3.1.min.js
+
+user_list=(support student students testuser)
+for this_user in ${user_list[*]}; do
+    this_dir="/home/$this_user"
+    cp -r jquery-3.3.1.min.js $this_dir #jQuery
+    cp -r node_modules $this_dir #Bootstrap
+    cp -r Postman $this_dir #Postman
+done
 
 echo "================================"
 echo "Y2 setup done"
