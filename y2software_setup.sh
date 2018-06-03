@@ -13,6 +13,7 @@ sudo apt-add-repository -y ppa:rael-gc/scudcloud #slack
 sudo add-apt-repository -y ppa:kdenlive/kdenlive-stable #kdenlive
 sudo add-apt-repository --yes ppa:webupd8team/brackets #brackets text editor
 sudo add-apt-repository -y ppa:inkscape.dev/stable #inkscape
+sudo add-apt-repository -y ppa:chromium-daily/stable #chromium-browser
 
 #!/bin/sh
 sudo apt-get update -y
@@ -38,6 +39,7 @@ sudo apt-get -y install npm
 #install inkscape
 #sudo apt-get update
 sudo apt install inkscape -y
+sudo apt-get -y install chromium-browser #Install Google Chrome
 
 #slack
 
@@ -82,7 +84,6 @@ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sou
 sudo apt-get -y install sublime-text
 
 #Install Brackets.io text editor - force "yes" response to all queries
-
 ###
 #sudo apt-get update ###
 ###
@@ -109,18 +110,30 @@ sudo npm install bootstrap@3
 #Download and unzip postman
 cd ~
 wget -O postman.tar.gz https://dl.pstmn.io/download/latest/linux64
-tar -xvf postman.tar.gz
+tar -xf postman.tar.gz #Suppress verbose output
 
 #Download jQuery
 cd ~
 wget https://code.jquery.com/jquery-3.3.1.min.js
 
-user_list=(support student students testuser)
+user_list=(student students testuser)
 for this_user in ${user_list[*]}; do
     this_dir="/home/$this_user"
-    cp -r jquery-3.3.1.min.js $this_dir #jQuery
-    cp -r node_modules $this_dir #Bootstrap
-    cp -r Postman $this_dir #Postman
+    sudo cp -r jquery-3.3.1.min.js $this_dir #jQuery
+    sudo cp -r node_modules $this_dir #Bootstrap
+    sudo cp -r Postman $this_dir #Postman
+
+    #Change ownership of files to local user
+    if [ $this_user == "student" ]
+    then
+        this_owner="students"
+    else
+        this_owner=$this_user
+    fi
+    echo $this_owner
+    sudo chown -R $this_owner $this_dir/jquery-3.3.1.min.js
+    sudo chown -R $this_owner $this_dir/node_modules
+    sudo chown -R $this_owner $this_dir/Postman
 done
 
 echo "================================"
