@@ -54,16 +54,23 @@ cd ~
 
 echo "Appending to .bashrc file a call to source alias_lab_scripts.sh..."
 echo "Append commands to .bashrc of student and students users, as well."
-dir_list=(~/ /home/student/ /home/students/ /home/testuser/)
+user_list=(support student students testuser)
 
-for dir in ${dir_list[*]}; do
-    echo "#Make sure aliases to startlab and endlab are created in every session" >> .bashrc
-    echo "source /usr/local/bin/alias_lab_scripts.sh" >> .bashrc
-    echo "" >> "$dir.bashrc"
-    echo "#Put current directory in path" >> .bashrc
-    echo "export PATH=$PATH:." >> .bashrc
-    echo "" >> .bashrc
-    echo "...done editing $dir.bashrc file"
+for this_user in ${user_list[*]}; do
+    this_dir="/home/$this_user"
+    this_file="$this_dir/.bashrc"
+    this_owner=$(stat -c "%U" $this_file)
+    #Modify permissions of .bashrc file so support can write into it
+    sudo chmod a+w $thisfile
+    echo "#Make sure aliases to startlab and endlab are created in every session" >> $this_file
+    echo "source /usr/local/bin/alias_lab_scripts.sh" >> $this_file
+    echo "" >> $this_file
+    echo "#Put current directory in path" >> $this_file
+    echo "export PATH=$PATH:." >> $this_file
+    echo "" >> $this_file
+    #Remove newly-added permissions allowing all users to write into .bashrc file
+    sudo chmod a-w $thisfile
+    echo "...done editing $this_file file"
 done
 
 echo ""
