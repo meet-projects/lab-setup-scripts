@@ -32,6 +32,7 @@ sudo apt-get -y install python3-pip
 sudo pip install -U setuptools
 sudo pip3 install -U setuptools
 
+
 #Install nodejs and npm
 sudo apt-get -y install nodejs
 sudo apt-get -y install npm
@@ -41,8 +42,14 @@ sudo apt-get -y install npm
 sudo apt install inkscape -y
 sudo apt-get -y install chromium-browser #Install Google Chrome
 
-#slack
+#Install curl
+sudo apt-get -y install curl
 
+#Install snap for installations
+sudo apt-get -y install snap
+
+#slack - team communication
+sudo snap install slack --classic
 
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 sudo apt update
