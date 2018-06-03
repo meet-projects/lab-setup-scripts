@@ -70,6 +70,7 @@ for this_user in ${user_list[*]}; do
     echo "" >> $this_file
     #Remove newly-added permissions allowing all users to write into .bashrc file
     sudo chmod a-w $this_file
+    sudo chmod u+w $this_file #Allow user to edit own .bashrc
     echo "...done editing $this_file file"
 done
 
