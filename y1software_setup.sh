@@ -16,6 +16,7 @@ sudo apt-get -y install idle3
 sudo apt-get -y install git
 sudo apt-get -y install gimp
 sudo apt-get -y install libreoffice #This doesn't come standard, it seems, on the Ubuntu distribution we're using
+sudo apt-get install -y python-tk #This is needed for turtle in Python 2 - don't understand why this isn't in-place by default
 
 #Install pip and pip3 and dependencies
 sudo apt-get -y install python-pip
