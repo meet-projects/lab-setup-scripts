@@ -61,7 +61,7 @@ for this_user in ${user_list[*]}; do
     this_file="$this_dir/.bashrc"
     this_owner=$(stat -c "%U" $this_file)
     #Modify permissions of .bashrc file so support can write into it
-    sudo chmod a+w $thisfile
+    sudo chmod a+w $this_file
     echo "#Make sure aliases to startlab and endlab are created in every session" >> $this_file
     echo "source /usr/local/bin/alias_lab_scripts.sh" >> $this_file
     echo "" >> $this_file
@@ -69,7 +69,7 @@ for this_user in ${user_list[*]}; do
     echo "export PATH=$PATH:." >> $this_file
     echo "" >> $this_file
     #Remove newly-added permissions allowing all users to write into .bashrc file
-    sudo chmod a-w $thisfile
+    sudo chmod a-w $this_file
     echo "...done editing $this_file file"
 done
 
