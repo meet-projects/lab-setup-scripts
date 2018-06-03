@@ -8,4 +8,5 @@ SQLAlchemy
 Werkzeug
 virtualenvwrapper
 WTForms
+requests
 
