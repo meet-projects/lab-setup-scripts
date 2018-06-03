@@ -49,8 +49,8 @@ sudo apt-get -y install git
 sudo apt-get -y install gimp
 
 #Install pip and pip3 and dependencies
-sudo apt-get install python-pip
-sudo apt-get install python3-pip
+sudo apt-get -y install python-pip
+sudo apt-get -y install python3-pip
 sudo pip install -U setuptools
 sudo pip3 install -U setuptools
 
