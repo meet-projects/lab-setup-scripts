@@ -2,6 +2,7 @@
 #
 #Last updated 13 May 2018 for Y2 summer, Ted Golfinopoulos
 
+echo "Update packages..."
 sudo apt-get update -y
 
 #Add repositories
@@ -12,9 +13,12 @@ sudo add-apt-repository -y ppa:inkscape.dev/stable #inkscape
 
 #!/bin/sh
 sudo apt-get update -y
+echo "...done"
+echo "===Y2==="
 
 #Note: Don't upgrade pip to Version 10 in Ubuntu 16.04, as of 13 May 2018, unless you want to sort out conflict between user-version of pip and system-wide version.  Version 8.1 is okay
 
+echo "Install software dependencies..."
 #Install git
 sudo apt-get -y install git
 
@@ -58,9 +62,10 @@ sudo ppa-purge ppa:kdenlive/kdenlive-stable
 sudo apt-get -y install python-virtualenv
 
 #Install list of requirements
+echo "Installing Y2 Python dependencies..."
 sudo pip install -r y2requirements.txt
 sudo pip3 install -r y2requirements.txt
-
+echo "...done installing y2 Python dependencies"
 #Install Sublime text editor
 #Install the GPG key
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -

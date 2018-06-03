@@ -5,6 +5,33 @@
 #Ted Golfinopoulos, 21 July 2017
 #Modified: 13 May 2018
 
+echo ""
+echo "Try to install python3, idle3, git, gimp, and pygame (if already installed, will tell you so and exit)..."
+#Do this first, before switching directories, so the requirements file is found.
+sudo apt-get update -y 
+sudo apt-get -y install python
+sudo apt-get -y install python3
+sudo apt-get -y install idle3
+sudo apt-get -y install git
+sudo apt-get -y install gimp
+
+#Install pip and pip3 and dependencies
+sudo apt-get -y install python-pip
+sudo apt-get -y install python3-pip
+sudo pip install -U setuptools
+sudo pip3 install -U setuptools
+
+#Install Y1 dependencies
+sudo pip install -r y1requirements.txt
+sudo pip3 install -r y1requirements.txt
+#sudo pip install pygame
+#sudo pip3 install pygame
+#sudo pip install numpy #New in 2018 per Y1 request
+#sudo pip install matplotlib #New in 2018 per Y1 request
+#sudo pip3 install numpy #New in 2018 per Y1 request
+#sudo pip3 install matplotlib #New in 2018 per Y1 request
+echo "...done"
+
 echo "--------------------------"
 echo "Copying startlab, endlab, and alias_lab_scripts.sh scripts to /usr/local/bin..."
 sudo cp startlab /usr/local/bin
@@ -40,30 +67,6 @@ echo "Changing language settings for date/time to English"
 sudo update-locale LC_ALL=en_US.UTF-8
 echo "...done"
 
-echo ""
-echo "Try to install python3, idle3, git, gimp, and pygame (if already installed, will tell you so and exit)..."
-sudo apt-get -y install python
-sudo apt-get -y install python3
-sudo apt-get -y install idle3
-sudo apt-get -y install git
-sudo apt-get -y install gimp
-
-#Install pip and pip3 and dependencies
-sudo apt-get -y install python-pip
-sudo apt-get -y install python3-pip
-sudo pip install -U setuptools
-sudo pip3 install -U setuptools
-
-#Install Y1 dependencies
-sudo pip install -r y1requirements.txt
-sudo pip3 install -r y1requirements.txt
-#sudo pip install pygame
-#sudo pip3 install pygame
-#sudo pip install numpy #New in 2018 per Y1 request
-#sudo pip install matplotlib #New in 2018 per Y1 request
-#sudo pip3 install numpy #New in 2018 per Y1 request
-#sudo pip3 install matplotlib #New in 2018 per Y1 request
-echo "...done"
 
 echo "setup script finished"
 echo "(: NICE TO MEET YOU - HAVE A NICE DAY! :)"
