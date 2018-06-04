@@ -140,7 +140,7 @@ for this_user in ${user_list[*]}; do
     else
         this_owner=$this_user
     fi
-    echo $this_owner
+
     sudo chown -R $this_owner $this_dir/jquery-3.3.1.min.js
     sudo chown -R $this_owner $this_dir/node_modules
     sudo chown -R $this_owner $this_dir/Postman
