@@ -75,6 +75,7 @@ sudo ppa-purge ppa:kdenlive/kdenlive-stable
 #Install virtual environment
 sudo apt-get -y install python-virtualenv
 
+
 #Install list of requirements
 echo "Installing Y2 Python dependencies..."
 sudo pip install -r y2requirements.txt
@@ -144,6 +145,39 @@ for this_user in ${user_list[*]}; do
     sudo chown -R $this_owner $this_dir/jquery-3.3.1.min.js
     sudo chown -R $this_owner $this_dir/node_modules
     sudo chown -R $this_owner $this_dir/Postman
+done
+
+#Download ngrok and place in /usr/local/etc
+cd ~
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+unzip ngrok-stable-linux-amd64.zip
+sudo mv ngrok /usr/local/etc
+
+echo "Appending to .bashrc an alias of ngrok to point to /usr/local/etc/ngrok"
+echo "Also, append commands to setup virtualenvwrapper"
+user_list=(support student students testuser)
+
+for this_user in ${user_list[*]}; do
+    this_dir="/home/$this_user"
+    this_file="$this_dir/.bashrc"
+    this_owner=$(stat -c "%U" $this_file)
+    
+    #Modify permissions of .bashrc file so support can write into it
+    sudo chmod a+w $this_file
+    echo "#Alias ngrok to point to /usr/local/etc/ngrok" >> $this_file
+    echo "alias ngrok=\"/usr/local/etc/ngrok\"" >> $this_file
+    echo "" >> $this_file
+    
+    #Set up virtualenvwrapper
+    echo "#Set up environment variables and source script containing virtualenvwrapper functions" >> $this_file
+    echo "export WORKON_HOME=$this_dir/.virtualenvs" >> $this_file
+    echo "export PROJECT_HOME=$this_dir/Devel" >> $this_file
+    echo "source /usr/local/bin/virtualenvwrapper.sh" >> $this_file
+    
+    #Remove newly-added permissions allowing all users to write into .bashrc file
+    sudo chmod a-w $this_file
+    sudo chmod u+w $this_file #Allow user to edit own .bashrc
+    echo "...done editing $this_file file"
 done
 
 echo "================================"
