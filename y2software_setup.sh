@@ -100,6 +100,11 @@ sudo apt-get -y install sublime-text
 ###
 sudo apt-get -y install brackets #Install brackets
 
+###
+#Install pyenv
+###
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
 #Install Microsoft vscode text editor (run with "code" command)
 #Somehow, code is not in repository list - not sure what Ubuntu this is....
 #Nor does the .gpg key get added - Had to do that manually with 
@@ -178,6 +183,14 @@ for this_user in ${user_list[*]}; do
     sudo chmod a-w $this_file
     sudo chmod u+w $this_file #Allow user to edit own .bashrc
     echo "...done editing $this_file file"
+    
+    #Add to .bashrc file for pyenv
+    echo 'export PATH="/home/golfit/.pyenv/bin:$PATH"' >> $this_file
+    echo 'eval "$(pyenv init -)"' >> $this_file
+    echo 'eval "$(pyenv virtualenv-init -)"' >> $this_file
+    
+    bash this_file
+    pyenv update
 done
 
 echo "================================"
