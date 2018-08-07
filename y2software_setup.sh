@@ -162,6 +162,9 @@ echo "Appending to .bashrc an alias of ngrok to point to /usr/local/etc/ngrok"
 echo "Also, append commands to setup virtualenvwrapper"
 user_list=(support student students testuser)
 
+#Copy lsc.sh to /usr/local/bin so it is in path
+sudo cp lsc.sh /usr/local/bin
+
 for this_user in ${user_list[*]}; do
     this_dir="/home/$this_user"
     this_file="$this_dir/.bashrc"
@@ -189,9 +192,14 @@ for this_user in ${user_list[*]}; do
     echo 'eval "$(pyenv init -)"' >> $this_file
     echo 'eval "$(pyenv virtualenv-init -)"' >> $this_file
     
+    #Create alias from lsc to lsc.sh
+    echo "#Alias lsc.sh, which adds a comma after each line of ls" >> $this_file
+    echo "alias lsc=\"/usr/local/bin/lsc.sh\"" >> $this_file
+    
     bash this_file
     pyenv update
 done
+
 
 echo "================================"
 echo "Y2 setup done"
