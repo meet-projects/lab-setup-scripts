@@ -46,7 +46,7 @@ fi
 echo "----------------------------------------"
 echo "(if you want to exit, hold down CTRL and press c)"
 echo ""
-echo "Please enter your MEET GitHub username (example: myname20-meet), and then press enter:"
+echo "Please enter your MEET GitHub username (example: myname21-meet), and then press enter:"
 
 read username
 
