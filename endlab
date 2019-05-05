@@ -17,7 +17,7 @@ echo "If not, do it and run endlab again."
 echo "???????????????????????????????????"
 saved_flag=$(zenity --question --text="Did you save _all_ your work first from idle in $(pwd)?" --width=400 --ok-label="Yes" --cancel-label="No"; echo $? 2> /dev/null)
 
-if [ saved_flag=1 ]
+if [ $saved_flag=1 ]
 then
     zenity --info --text="First, save all your work in $(pwd); then, run endlab again." 2> /dev/null #Suppress warning message
     return #Exit shell for user to re-run script
