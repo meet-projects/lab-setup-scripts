@@ -65,11 +65,19 @@ else
     echo "MEET Day $day_num"
 fi
 
+#If username environment variable already exists, use it as default
+if [ -z ${username+x} ]
+then
+    default_username="myname21-meet"
+else
+    default_username=$username
+fi
+
 echo "(if you want to exit, click on terminal, hold down CTRL, and press c)"
 echo ""
 #echo "Please enter your MEET GitHub username (example: myname21-meet), and then press enter:"
 #read username
-username=$(zenity --entry --title="MEET startlab" --text="Please enter your username:" --entry-text="myname21-meet") 2> /dev/null
+username=$(zenity --entry --title="MEET startlab" --text="Please enter your username:" --entry-text="$default_username"  2> /dev/null)
 declare -l username #Force string to lowercase
 username=$username
 
@@ -159,7 +167,7 @@ do
    #echo "Error: couldn't recognize this lab.">&2;
    #echo "Please enter an integer lab number (like 1, 2, 3, etc.), or mini-proj, or final-proj (or press CTRL-C to quit): "
    #read lab_id
-   lab_id=$(zenity --entry --title="MEET startlab" --text="Can't recognize $lab_id - please enter module ID:" --entry-text=$default_mod_id) 2> /dev/null
+   lab_id=$(zenity --entry --title="MEET startlab" --text="Can't recognize $lab_id - please enter module ID:" --entry-text=$default_mod_id 2> /dev/null) 
    declare -l lab_id #Force string to lowercase
    lab_id=$lab_id
 done
