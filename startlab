@@ -132,8 +132,6 @@ name_only=${username:0:-5}
 #export username #Save username for use in endlab script
 #echo "Please enter the module number you'd like to work on, and then press enter. "
 
-mod_expr="Please enter module ID:"
-
 if [ $day_num -ge 10 ]; then
     #echo "If you want work on the final project, type"
     #echo "final-proj"
@@ -150,7 +148,7 @@ fi
 
 #read lab_id
 
-lab_id=$(zenity --entry --title="MEET startlab" --text=$mod_expr --entry-text="$day_num") 2> /dev/null
+lab_id=$(zenity --entry --title="MEET startlab" --text="Please enter module ID:" --entry-text="$day_num") 2> /dev/null
 declare -l lab_id #Force string to lowercase
 lab_id=$lab_id
 
