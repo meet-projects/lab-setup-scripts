@@ -218,7 +218,7 @@ fi
 #echo "----------------------------------------"
 #echo "After that, you're ready for module "$lab_id
 nautilus . & #Open up the file browser for this folder
-idle3 "lab_$lab_name.py" & #Open up idle3 with default file
+idle3 "lab_$lab_id.py" & #Open up idle3 with default file
 
 #Print a turtle upon success
 if [ $success ]
