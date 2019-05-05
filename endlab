@@ -15,12 +15,12 @@ echo "???????????????????????????????????"
 echo "Did you save _all_ your work in idle3 first?"
 echo "If not, do it and run endlab again."
 echo "???????????????????????????????????"
-saved_flag=$(zenity --question --text="Did you save _all_ your work first from idle in $(pwd)?" --width=400 --ok-label="Yes" --cancel-label="No"; if [ $?="0" ]; then echo false; else echo true; fi 2> /dev/null)
+saved_flag=$(zenity --question --text="Did you save _all_ your work first from idle in $(pwd)?" --width=400 --ok-label="Yes" --cancel-label="No"; echo $? 2> /dev/null)
 
 if [ saved_flag=1 ]
 then
     zenity --info --text="First, save all your work in $(pwd); then, run endlab again." 2> /dev/null #Suppress warning message
-    exit #Exit shell for user to re-run script
+    return #Exit shell for user to re-run script
 fi
 #echo "Note: you can run endlab as many times as you want."
 
