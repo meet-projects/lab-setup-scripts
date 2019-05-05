@@ -210,7 +210,7 @@ echo "cd ~/$dir_name/$lab_name" >> ~/.working_dir.sh
 if [ $home_dir/$dir_name/$lab_name=$(pwd) ]
 then
     success=true
-    zenity --info --title="MEET startlab" --text="Ready to work on Lab $lab_id - remember to save work in $(pwd), and run endlab when done"
+    zenity --info --title="MEET startlab" --text="Ready to work on Lab $lab_id - remember to save work in $(pwd), and run endlab when done.  Click OK to begin." --width=400 2> /dev/null
     echo "$username" > ~/.default_username.txt #Save this username as default for next session
 fi
 
