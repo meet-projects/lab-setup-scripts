@@ -6,16 +6,23 @@
 #(startlab should be run first, of course.)
 #
 #T. Golfinopoulos 26 June 2017
-#Last modified 29 May 2018
+#Modified 29 May 2018
+#Last modified 5 May 2019
 
 source ~/.working_dir.sh
 
 echo "???????????????????????????????????"
-echo "Did you save _all_ your work first?"
+echo "Did you save _all_ your work in idle3 first?"
 echo "If not, do it and run endlab again."
 echo "???????????????????????????????????"
+saved_flag=$(zenity --question --text="Did you save _all_ your work first from idle in $(pwd)?" --width=400 --ok-label="Yes" --cancel-label="No"; if [ $?="0" ]; then echo false; else echo true; fi 2> /dev/null)
 
-echo "Note: you can run endlab as many times as you want."
+if [ saved_flag=1 ]
+then
+    zenity --info --text="First, save all your work in $(pwd); then, run endlab again." 2> /dev/null #Suppress warning message
+    exit #Exit shell for user to re-run script
+fi
+#echo "Note: you can run endlab as many times as you want."
 
 #Record which computer the student was working on
 hostname > computer_name.txt
@@ -28,6 +35,8 @@ git commit -m "Stopping here"
 git pull
 
 #
+zenity --info --text="Your username is\n$username\nYour password is\nmeetyear21\nEnter these in the terminal. When you type your password, you won't see text. That's okay." --width=400 2> /dev/null
+
 echo "----------------------------------------"
 echo "You'll be asked to enter your GitHub username and password"
 echo "Your username is"
