@@ -8,7 +8,9 @@
 
 #Move to home directory
 cd ~
+home_dir=$(pwd)
 
+success=false #Initialize success state variable
 
 echo "----------------------------------------"
 echo "------------> START IT UP! <------------"
@@ -22,34 +24,52 @@ this_year_last_2=$(date +%y)
 
 seconds_since_epoch=$(date +%s)
 
-echo ""
+#echo ""
 
-seconds_since_start_of_meet=$(( $seconds_since_epoch - 1532851200 )) #1500796800=2017 date
+seconds_since_start_of_meet=$(( $seconds_since_epoch - 1563696000000 )) #1532851200=2018 date #1500796800=2017 date
 days_since_start_of_meet=$(( $seconds_since_start_of_meet / 86400 ))
 
-echo "(: Hello, there! :)"
-echo "Today is $weekday, $day_of_month $month $this_year."
-echo "It's been $seconds_since_start_of_meet seconds since you started your first summer at MEET"
-
-if [ "$days_since_start_of_meet" -gt 1 ] || [ "$days_since_start_of_meet" -lt -1 ]; then
-    echo "($days_since_start_of_meet days)."
+if [ $days_since_start_of_meet -gt 13 ]
+then
+    day_num=$(( $days_since_start_of_meet-4 )) #Subtract off weekends
+elif [ $days_since_start_of_meet -gt 6 ]
+then
+    day_num=$(( $days_since_start_of_meet-2 )) #Subtract off weekends
 else
-    echo "($days_since_start_of_meet day)."
+    day_num=$days_since_start_of_meet
 fi
 
-if [ "$seconds_since_start_of_meet" -gt 50400 ]; then #After first day
-    echo "Welcome to another MEET lab!"
-else
-    echo "Welcome to your first MEET lab!"
-fi
+#echo "(: Hello, there! :)"
+#echo "Today is $weekday, $day_of_month $month $this_year."
+#echo "It's been $seconds_since_start_of_meet seconds since you started your first summer at MEET"
+
+#if [ "$days_since_start_of_meet" -gt 1 ] || [ "$days_since_start_of_meet" -lt -1 ]; then
+#    echo "($days_since_start_of_meet days)."
+#else
+#    echo "($days_since_start_of_meet day)."
+#fi
+
+#if [ "$seconds_since_start_of_meet" -gt 50400 ]; then #After first day
+#    echo "Welcome to another MEET lab!"
+#else
+#    echo "Welcome to your first MEET lab!"
+#fi
 
 echo "----------------------------------------"
-echo "(if you want to exit, hold down CTRL and press c)"
+if [ $day_num -eq -1 ]; then
+    echo "1 day to MEET"
+elif [ $day_num -lt 0 ]; then
+    echo "$(( -1*$day_num )) days to MEET"
+    day_num=1 #Change for default module number
+else
+    echo "MEET Day $day_num"
+fi
+
+echo "(if you want to exit, click on terminal, hold down CTRL, and press c)"
 echo ""
-echo "Please enter your MEET GitHub username (example: myname21-meet), and then press enter:"
-
-read username
-
+#echo "Please enter your MEET GitHub username (example: myname21-meet), and then press enter:"
+#read username
+username=$(zenity --entry --title="MEET startlab" --text="Please enter your username:" --entry-text="myname21-meet") 2> /dev/null
 declare -l username #Force string to lowercase
 username=$username
 
@@ -64,24 +84,8 @@ all_user_names=($(<.check_name.txt))
 all_user_names=${all_user_names//,/" "}
 all_user_names=${all_user_names//;/" "}
 
-#Check to make sure the user entered a username that actually belongs to a student.
-correct_username=false
-for this_name in ${all_user_names[*]}; do
-    if [ "$this_name" == "$username" ]; then
-        correct_username=true
-        break  
-    fi
-done
-
-while [ "$correct_username" != true ]
-do
-    echo "Cannot recognize $username.  Check your spelling (look closely)."
-    echo "Now, try entering your username again (or enter CTRL-C to quit): "
-    read username
-    declare -l username #Force string to lowercase
-    username=$username
-    
-    #Check to make sure the user entered a username that actually belongs to a student.
+#Function to check to make sure the user entered a username that actually belongs to a student.
+check_username() {
     correct_username=false
     for this_name in ${all_user_names[*]}; do
         if [ "$this_name" == "$username" ]; then
@@ -89,6 +93,30 @@ do
             break  
         fi
     done
+}
+
+check_username
+
+#correct_username=false
+#    for this_name in ${all_user_names[*]}; do
+#        if [ "$this_name" == "$username" ]; then
+#            correct_username=true
+#            break  
+#        fi
+#    done
+    
+while [ "$correct_username" != true ]
+do
+    #echo "Cannot recognize $username.  Check your spelling (look closely)."
+    #echo "Now, try entering your username again (or enter CTRL-C to quit): "
+    #read username
+    
+    username=$(zenity --entry --title="MEET startlab" --text="No matches for $username - try again (check spelling):" --entry-text="myname21-meet") 2> /dev/null
+    declare -l username #Force string to lowercase
+    username=$username
+    
+    #Check to make sure the user entered a username that actually belongs to a student.
+    check_username
 done
 
 #Remove file with usernames and download output file
@@ -99,24 +127,30 @@ rm .uname_download_log.txt
 #Do this after username is verified
 name_only=${username:0:-5}
 
-
-echo "----------------------------------------"
+#echo "Welcome, $name_only"
+#echo "----------------------------------------"
 #export username #Save username for use in endlab script
-echo "Please enter the module number you'd like to work on, and then press enter. "
+#echo "Please enter the module number you'd like to work on, and then press enter. "
 
-if [ "$days_since_start_of_meet" -ge 8 ]; then
-    echo "If you want work on the mini project, type"
-    echo "mini-proj"
-    echo "and then hit enter"
+mod_expr="Please enter module ID:"
+
+if [ $day_num -ge 10 ]; then
+    #echo "If you want work on the final project, type"
+    #echo "final-proj"
+    #echo "and then hit enter"
+    default_mod_id="final-proj"
+elif [ "$day_num" -ge 7 ]; then
+    #echo "If you want work on the mini project, type"
+    #echo "mini-proj"
+    #echo "and then hit enter"
+    default_mod_id="mini-proj"
+else
+    default_mod_id="$day_num"
 fi
 
-if [ "$days_since_start_of_meet" -ge 14 ]; then
-    echo "If you want work on the final project, type"
-    echo "final-proj"
-    echo "and then hit enter"
-fi
-read lab_id
+#read lab_id
 
+lab_id=$(zenity --entry --title="MEET startlab" --text=$mod_expr --entry-text="$day_num") 2> /dev/null
 declare -l lab_id #Force string to lowercase
 lab_id=$lab_id
 
@@ -124,11 +158,12 @@ lab_id=$lab_id
 re='^[0-9]+$'
 while (! [[ $lab_id =~ $re ]]) && ( [ "$lab_id" != 'mini-proj' ] && [ "$lab_id" != 'final-proj' ] )
 do
-   echo "Error: couldn't recognize this lab.">&2;
-   echo "Please enter an integer lab number (like 1, 2, 3, etc.), or mini-proj, or final-proj (or press CTRL-C to quit): "
-   read lab_id
+   #echo "Error: couldn't recognize this lab.">&2;
+   #echo "Please enter an integer lab number (like 1, 2, 3, etc.), or mini-proj, or final-proj (or press CTRL-C to quit): "
+   #read lab_id
+   lab_id=$(zenity --entry --title="MEET startlab" --text="Can't recognize $lab_id - please enter module ID:" --entry-text=$default_mod_id) 2> /dev/null
    declare -l lab_id #Force string to lowercase
-    lab_id=$lab_id
+   lab_id=$lab_id
 done
 
 if [[ $lab_id =~ $re ]] ; then
@@ -163,41 +198,53 @@ git pull
 echo "#!/bin/bash" > ~/.working_dir.sh
 echo "#Git working directory for $username" >> ~/.working_dir.sh
 echo "cd ~/$dir_name/$lab_name" >> ~/.working_dir.sh
-echo "echo 'Moved to ~/$dir_name/$lab_name'"
+#echo "echo 'Moved to ~/$dir_name/$lab_name'"
+
+if [ $home_dir/$dir_name/$lab_name=$(pwd) ]
+then
+    success=true
+    zenity --info --title="MEET startlab" text="Ready to work on Lab $lab_id - remember to save work in $(pwd), and run endlab when done"
+fi
 
 #Return to home
 #cd ~ #23 July 2017 - leave students in directory they are supposed to be in. TG
 
-echo "----------------------------------------"
+#echo "----------------------------------------"
 #echo "Please enter this into the Linux shell:"
 #echo "cd "$dir_name"/"$lab_name
 #echo "Then, enter this:"
 #echo "Type"
 #echo "ls"
-echo "----------------------------------------"
+#echo "----------------------------------------"
 #echo "After that, you're ready for module "$lab_id
-echo "You're ready for module "$lab_id
-echo "You can open a file for editing using idle3."
-echo "For example, to make a new file called hello_world.py, you would enter"
-echo ""
-echo "idle3 hello_world.py &"
-echo ""
-echo "*Make sure you use the correct name for your files.*"
-echo "---------------"
-echo "Shell commands:"
-echo "---------------"
-echo "ls -> list all of the files in the folder"
-echo "cd my_directory -> change to a folder called 'my_directory'"
-echo "cd .. -> move the folder up one level"
-echo "---------------"
-echo "NOW, GO FOR IT!"
-echo "----------------------------------------------------------------"
-#idle3 & #Open up idle3
+nautilus . & #Open up the file browser for this folder
+idle3 "lab_$lab_name.py" & #Open up idle3 with default file
 
 #Print a turtle upon success
-echo ""
-echo "      ___"
-echo " ,,  // \\\\"
-echo "(_,\/ \_/ \\"
-echo "  \ \_/_\_/>"
-echo "  /_/  /_/"
+if [ $success ]
+then
+    echo "You're ready for module "$lab_id
+    echo "---Reminders:---"
+    echo "You can open a file for editing using idle3."
+    echo "For example, to make a new file called hello_world.py, you would enter"
+    echo ""
+    echo "idle3 hello_world.py &"
+    echo ""
+    echo "*Make sure you use the correct name for your files.*"
+    echo "---------------"
+    echo "Shell commands:"
+    echo "---------------"
+    echo "ls -> list all of the files in the folder"
+    echo "cd my_directory -> change to a folder called 'my_directory'"
+    echo "cd .. -> move the folder up one level"
+    echo "---------------"
+    echo "NOW, GO FOR IT!"
+    echo "----------------------------------------------------------------"
+
+    echo ""
+    echo "      ___"
+    echo " ,,  // \\\\"
+    echo "(_,\/ \_/ \\"
+    echo "  \ \_/_\_/>"
+    echo "  /_/  /_/"
+fi
