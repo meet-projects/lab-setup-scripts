@@ -85,6 +85,11 @@ echo "Changing language settings for date/time to English"
 sudo update-locale LC_ALL=en_US.UTF-8
 echo "...done"
 
+echo "Generating default username"
+echo "myname21-meet" > ~/.default_username.txt
+#Initialize with generic username 
+git config --global user.name "myname21-meet"
+git config --global user.email myname21@meet.mit.edu
 
 echo "setup script finished"
 echo "(: NICE TO MEET YOU - HAVE A NICE DAY! :)"

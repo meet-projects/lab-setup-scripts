@@ -66,11 +66,12 @@ else
 fi
 
 #If username environment variable already exists, use it as default
-if [ -z ${username+x} ]
+default_username=$(<.default_username.txt)
+if [ -z ${default_username+x} ]
 then
     default_username="myname21-meet"
 else
-    default_username=$username
+    default_username=$default_username
 fi
 
 echo "(if you want to exit, click on terminal, hold down CTRL, and press c)"
@@ -119,7 +120,7 @@ do
     #echo "Now, try entering your username again (or enter CTRL-C to quit): "
     #read username
     
-    username=$(zenity --entry --title="MEET startlab" --text="No matches for $username - try again (check spelling):" --entry-text="myname21-meet") 2> /dev/null
+    username=$(zenity --entry --title="MEET startlab" --text="No matches for $username - try again (check spelling):" --entry-text="myname21-meet" 2> /dev/null)
     declare -l username #Force string to lowercase
     username=$username
     
@@ -156,7 +157,7 @@ fi
 
 #read lab_id
 
-lab_id=$(zenity --entry --title="MEET startlab" --text="Please enter module ID:" --entry-text="$day_num") 2> /dev/null
+lab_id=$(zenity --entry --title="MEET startlab" --text="Please enter module ID:" --entry-text="$day_num" 2> /dev/null)
 declare -l lab_id #Force string to lowercase
 lab_id=$lab_id
 
@@ -190,7 +191,7 @@ cd $dir_name
 
 #Configure git username and e-mail address
 email_address="$name_only@meet.mit.edu" 
-echo "$email_address"
+#echo "$email_address"
 
 git config --global user.name "$username"
 git config --global user.email "$email_address"
@@ -209,7 +210,8 @@ echo "cd ~/$dir_name/$lab_name" >> ~/.working_dir.sh
 if [ $home_dir/$dir_name/$lab_name=$(pwd) ]
 then
     success=true
-    zenity --info --title="MEET startlab" text="Ready to work on Lab $lab_id - remember to save work in $(pwd), and run endlab when done"
+    zenity --info --title="MEET startlab" --text="Ready to work on Lab $lab_id - remember to save work in $(pwd), and run endlab when done"
+    echo "$username" > ~/.default_username.txt #Save this username as default for next session
 fi
 
 #Return to home
