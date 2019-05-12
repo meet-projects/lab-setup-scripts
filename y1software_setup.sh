@@ -36,9 +36,10 @@ sudo pip3 install -r y1requirements.txt
 echo "...done"
 
 echo "--------------------------"
-echo "Copying startlab, endlab, and alias_lab_scripts.sh scripts to /usr/local/bin..."
+echo "Copying startlab, endlab, lsc.sh, and alias_lab_scripts.sh scripts to /usr/local/bin..."
 sudo cp startlab /usr/local/bin
 sudo cp endlab /usr/local/bin
+sudo cp lsc.sh /usr/local/bin
 sudo cp alias_lab_scripts.sh /usr/local/bin
 echo "...done"
 

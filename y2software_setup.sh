@@ -1,7 +1,8 @@
 #The original version of this software may have been from 2016-2017 YL2 MEETconf by Lorenzo Brown.
 #
 #updated 13 May 2018 for Y2 summer, Ted Golfinopoulos
-#Last updated 3 June 2018 TG
+#Updated 3 June 2018 TG
+#Last updated 12 May 2019 TG - added PYENV_ROOT environment variable, which got rid of pyenv-not-found errors in shell.
 
 echo "Note: the Y1 sotware setup should be run first, as there are several co-dependencies"
 
@@ -158,12 +159,12 @@ wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip ngrok-stable-linux-amd64.zip
 sudo mv ngrok /usr/local/etc
 
+#Copy lsc.sh to /usr/local/bin so it is in path
+sudo cp lsc.sh /usr/local/bin
+
 echo "Appending to .bashrc an alias of ngrok to point to /usr/local/etc/ngrok"
 echo "Also, append commands to setup virtualenvwrapper"
 user_list=(support student students testuser)
-
-#Copy lsc.sh to /usr/local/bin so it is in path
-sudo cp lsc.sh /usr/local/bin
 
 for this_user in ${user_list[*]}; do
     this_dir="/home/$this_user"
@@ -188,8 +189,13 @@ for this_user in ${user_list[*]}; do
     echo "...done editing $this_file file"
     
     #Add to .bashrc file for pyenv
-    echo 'export PATH="/home/golfit/.pyenv/bin:$PATH"' >> $this_file
-    echo 'eval "$(pyenv init -)"' >> $this_file
+    echo 'export PYENV_ROOT=$HOME/.pyenv' >> $this_file
+    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> $this_file #Add pyenv executable to path
+    echo 'if command -v pyenv 1>/dev/null 2>&1;' >> $this_file
+    echo 'then' >> $this_file
+    echo '  eval "$(pyenv init -)"' >> $this_file
+    echo 'fi' >> $this_file
+
     echo 'eval "$(pyenv virtualenv-init -)"' >> $this_file
     
     #Create alias from lsc to lsc.sh
