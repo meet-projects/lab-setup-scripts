@@ -128,6 +128,7 @@ sudo npm install bootstrap@3
 cd ~
 wget -O postman.tar.gz https://dl.pstmn.io/download/latest/linux64
 tar -xf postman.tar.gz #Suppress verbose output
+rm postman.tar.gz #Remove postman zip file 
 
 #Download jQuery
 cd ~
@@ -158,6 +159,7 @@ cd ~
 wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip ngrok-stable-linux-amd64.zip
 sudo mv ngrok /usr/local/etc
+rm ngrok-stable-linux-amd64.zip #Remove zip file
 
 #Copy lsc.sh to /usr/local/bin so it is in path
 sudo cp lsc.sh /usr/local/bin
